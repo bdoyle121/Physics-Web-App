@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Thermodynamics Simulator</h2>
+<form method="post">
+    <label>Hot Reservoir Temperature (T₁ in Kelvin):</label>
+    <input type="number" name="T1" required><br><br>
+    <label>Cold Reservoir Temperature (T₂ in Kelvin):</label>
+    <input type="number" name="T2" required><br><br>
+    <input type="submit" value="Calculate Efficiency">
+</form>
+
+{% if efficiency == -1 %}
+    <p style="color:red;">Invalid input: T₁ must be greater than T₂ and non-zero.</p>
+{% elif efficiency is not none %}
+    <h3>Result</h3>
+    <p>Efficiency: {{ (efficiency * 100) | round(2) }}%</p>
+{% endif %}
+
+<h3>Thermodynamic Laws</h3>
+<div>
+    {% for law in laws %}
+        <div style="border:1px solid #ccc; padding:10px; margin:10px 0; border-radius:5px;">
+            <h4>{{ law.law }}</h4>
+            <p><strong>Statement:</strong> {{ law.statement }}</p>
+            <p><strong>Description:</strong> {{ law.description }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

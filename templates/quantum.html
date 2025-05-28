@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Quantum Mechanics: Particle in a Box</h2>
+
+<p><strong>Key Equation (Time-Independent Schrödinger Equation):</strong></p>
+<p>
+  $$ -\\frac{\\hbar^2}{2m} \\frac{d^2 \\psi(x)}{dx^2} = E \\psi(x) $$
+</p>
+
+<p>This module models a particle in a 1D box. The normalized wavefunction is:</p>
+<p>
+  $$ \\psi_n(x) = \\sqrt{2} \\sin\\left( \\frac{n \\pi x}{L} \\right) $$
+</p>
+
+<h4>Current Settings</h4>
+<ul>
+  <li>Quantum Level (n): {{ n }}</li>
+  <li>Energy Level: {{ energy | round(4) }}</li>
+</ul>
+
+<!-- Chart container -->
+<div id="waveChart" style="width: 100%; height: 400px;"></div>
+
+<!-- Safe JSON Injection -->
+<script id="data-json" type="application/json">
+{
+  "x": {{ x|tojson }},
+  "psi": {{ psi|tojson }}
+}
+</script>
+
+<!-- Plotting script -->
+<script>
+    const data = JSON.parse(document.getElementById('data-json').textContent);
+    const xData = data.x;
+    const psiData = data.psi;
+
+    const trace = {
+        x: xData,
+        y: psiData,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'ψ(x)'
+    };
+
+    const layout = {
+        title: 'Wavefunction ψ(x) for n = {{ n }}',
+        xaxis: { title: 'Position (x)', range: [0, 1] },
+        yaxis: { title: 'ψ(x)' }
+    };
+
+    Plotly.newPlot('waveChart', [trace], layout);
+</script>
+{% endblock %}

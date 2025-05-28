@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Cosmology: Hubble's Law & Universe Expansion</h2>
+
+<p><strong>Key Equation:</strong></p>
+<p>
+  $$ v = H_0 \\cdot d $$
+</p>
+
+<p>This is Hubble's Law, which describes how galaxies move away from each other as the universe expands.</p>
+
+<h4>Current Input:</h4>
+<ul>
+  <li>Hubble Constant: {{ H0 }} km/s/Mpc</li>
+  <li>Distance: {{ distance }} Mpc</li>
+  <li>Recession Velocity: {{ velocity | round(2) }} km/s</li>
+  <li>Estimated Age of the Universe: {{ age_universe | round(2) }} years</li>
+</ul>
+
+<div id="expansionChart" style="width: 100%; height: 400px;"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const time = Array.from({length: 100}, (_, i) => i + 1);
+        const scale = time.map(t => Math.sqrt(t));
+        Plotly.newPlot('expansionChart', [{
+            x: time,
+            y: scale,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Scale Factor'
+        }], {
+            title: 'Expansion of the Universe (Simplified)',
+            xaxis: { title: 'Time (arbitrary)' },
+            yaxis: { title: 'Scale Factor a(t)' }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content}
+<h2>General Relativity: Schwarzschild Radius</h2>
+
+<p><strong>Key Equation (Einstein Field Equation):</strong></p>
+<p>
+    $$ G_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8 \\pi G}{c^4} T_{\\mu\\nu} $$
+</p>
+<p>The Schwarzschild radius defines the radius at which an object mass <i>M</i> becomes a black hole:</p>
+<p>
+    $$ r_s = \\frac{2GM}{c^2} $$
+</p>
+<h4>Current Input</h4>
+<ul>
+    <li>Mass: {{ mass }} kg</li>
+    <li>Schwarzschild Radius: {{ radius | round(6) }} meters</li>
+</ul>
+{% endblock %}

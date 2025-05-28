@@ -3,16 +3,36 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Home 
+# ---------------- Home ----------------
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Thermodynamics 
+# ---------------- Thermodynamics ----------------
 @app.route('/thermodynamics', methods=['GET', 'POST'])
 def thermodynamics():
     efficiency = None
     T1 = T2 = None
+
+    # Thermodynamic laws and explanations
+    laws = [
+        {
+            'law': 'First Law of Thermodynamics',
+            'statement': 'Energy cannot be created or destroyed, only transferred or converted from one form to another.',
+            'description': 'This law is a version of the law of conservation of energy, adapted for thermodynamic systems.'
+        },
+        {
+            'law': 'Second Law of Thermodynamics',
+            'statement': 'Entropy of an isolated system always increases over time.',
+            'description': 'This law explains the natural tendency of systems to evolve towards thermodynamic equilibrium or maximum entropy.'
+        },
+        {
+            'law': 'Third Law of Thermodynamics',
+            'statement': 'As temperature approaches absolute zero, the entropy of a system approaches a constant minimum.',
+            'description': 'At absolute zero (0 K), the system should theoretically be in a state of perfect order, meaning zero entropy.'
+        }
+    ]
+
     if request.method == 'POST':
         try:
             T1 = float(request.form['T1'])
@@ -23,9 +43,10 @@ def thermodynamics():
                 efficiency = -1
         except ValueError:
             efficiency = -1
-    return render_template('thermodynamics.html', efficiency=efficiency, T1=T1, T2=T2)
 
-# Quantum Mechanics 
+    return render_template('thermodynamics.html', efficiency=efficiency, T1=T1, T2=T2, laws=laws)
+
+# ---------------- Quantum Mechanics ----------------
 @app.route('/quantum', methods=['GET', 'POST'])
 def quantum():
     n = L = 1
@@ -34,7 +55,7 @@ def quantum():
     energy = (n**2 * np.pi**2) / 2
     return render_template('quantum.html', x=x.tolist(), psi=psi.tolist(), energy=energy, n=n)
 
-# General Relativity
+# ---------------- General Relativity ----------------
 @app.route('/relativity', methods=['GET', 'POST'])
 def relativity():
     mass = request.args.get('mass', default=1.0, type=float)
@@ -43,7 +64,7 @@ def relativity():
     schwarzschild_radius = 2 * G * mass / c**2
     return render_template('relativity.html', mass=mass, radius=schwarzschild_radius)
 
-# Cosmology 
+# ---------------- Cosmology ----------------
 @app.route('/cosmology', methods=['GET', 'POST'])
 def cosmology():
     H0 = request.args.get('H0', default=70.0, type=float)  # km/s/Mpc
@@ -52,6 +73,6 @@ def cosmology():
     age_universe = 1 / (H0 * 1e3 / (3.086e22)) / (60 * 60 * 24 * 365.25)  # in years
     return render_template('cosmology.html', H0=H0, distance=distance, velocity=velocity, age_universe=age_universe)
 
-# Run 
+# ---------------- Run ----------------
 if __name__ == '__main__':
     app.run(debug=True)
