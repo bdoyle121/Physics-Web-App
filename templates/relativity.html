@@ -1,18 +1,82 @@
+<!-- relativity.html -->
 {% extends "base.html" %}
+{% block title %}General Relativity - Physics Simulator{% endblock %}
 {% block content %}
-<h2>General Relativity: Schwarzschild Radius</h2>
+<div class="page-header">
+    <h2>General Relativity: Black Holes & Spacetime</h2>
+</div>
 
-<p><strong>Key Equation (Einstein Field Equation):</strong></p>
-<p>
-    $$ G_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8 \\pi G}{c^4} T_{\\mu\\nu} $$
-</p>
-<p>The Schwarzschild radius defines the radius at which an object mass <i>M</i> becomes a black hole:</p>
-<p>
-    $$ r_s = \\frac{2GM}{c^2} $$
-</p>
-<h4>Current Input</h4>
-<ul>
-    <li>Mass: {{ mass }} kg</li>
-    <li>Schwarzschild Radius: {{ radius | round(6) }} meters</li>
-</ul>
+<div class="theory-section">
+    <h3>Einstein Field Equations</h3>
+    <div class="equation-display">
+        $$ G_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8 \pi G}{c^4} T_{\mu\nu} $$
+    </div>
+    
+    <p>The Schwarzschild radius defines the event horizon of a black hole:</p>
+    <div class="equation-display">
+        $$ r_s = \frac{2GM}{c^2} $$
+    </div>
+</div>
+
+<div class="calculator-section">
+    <div class="calculator-card">
+        <h3>Black Hole Calculator</h3>
+        <form method="get" class="calculator-form">
+            <div class="input-group">
+                <label for="mass">Mass (kg):</label>
+                <input type="number" id="mass" name="mass" step="any" min="0.001" value="{{ mass }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+    </div>
+</div>
+
+<div class="results-section">
+    <h3>Results</h3>
+    <div class="results-grid">
+        <div class="result-card">
+            <h4>Mass</h4>
+            <p>{{ mass }} kg</p>
+            <small>{{ (mass / 1.989e30) | round(2) }} Solar Masses</small>
+        </div>
+        
+        <div class="result-card">
+            <h4>Schwarzschild Radius</h4>
+            <p>{{ radius | round(6) }} m</p>
+            <small>{{ (radius / 1000) | round(6) }} km</small>
+        </div>
+        
+        {% if time_dilation %}
+        <div class="result-card">
+            <h4>Time Dilation Factor</h4>
+            <p>{{ time_dilation | round(4) }}</p>
+        </div>
+        {% endif %}
+        
+        {% if escape_velocity %}
+        <div class="result-card">
+            <h4>Escape Velocity</h4>
+            <p>{{ escape_velocity | round(0) }} m/s</p>
+            <small>{{ (escape_velocity / 299792458) | round(4) }}c</small>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="info-section">
+    <h3>Notable Black Holes</h3>
+    <div class="examples-grid">
+        <div class="example-card">
+            <h4>Stellar Black Hole</h4>
+            <p>Mass: ~10 Solar Masses</p>
+            <p>Schwarzschild Radius: ~30 km</p>
+        </div>
+        
+        <div class="example-card">
+            <h4>Sagittarius A*</h4>
+            <p>Mass: 4.1 million Solar Masses</p>
+            <p>Schwarzschild Radius: ~12 million km</p>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,29 +1,59 @@
+<!-- thermodynamics.html -->
 {% extends "base.html" %}
+{% block title %}Thermodynamics - Physics Simulator{% endblock %}
 {% block content %}
-<h2>Thermodynamics Simulator</h2>
-<form method="post">
-    <label>Hot Reservoir Temperature (T₁ in Kelvin):</label>
-    <input type="number" name="T1" required><br><br>
-    <label>Cold Reservoir Temperature (T₂ in Kelvin):</label>
-    <input type="number" name="T2" required><br><br>
-    <input type="submit" value="Calculate Efficiency">
-</form>
+<div class="page-header">
+    <h2>Thermodynamics Simulator</h2>
+    <p>Calculate the efficiency of heat engines using the Carnot cycle</p>
+</div>
 
-{% if efficiency == -1 %}
-    <p style="color:red;">Invalid input: T₁ must be greater than T₂ and non-zero.</p>
-{% elif efficiency is not none %}
-    <h3>Result</h3>
-    <p>Efficiency: {{ (efficiency * 100) | round(2) }}%</p>
-{% endif %}
+<div class="calculator-section">
+    <div class="calculator-card">
+        <h3>Carnot Engine Efficiency Calculator</h3>
+        <form method="post" class="calculator-form">
+            <div class="input-group">
+                <label for="T1">Hot Reservoir Temperature (T₁ in Kelvin):</label>
+                <input type="number" id="T1" name="T1" step="0.1" min="0" value="{{ T1 or '' }}" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="T2">Cold Reservoir Temperature (T₂ in Kelvin):</label>
+                <input type="number" id="T2" name="T2" step="0.1" min="0" value="{{ T2 or '' }}" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Calculate Efficiency</button>
+        </form>
+        
+        {% if error_message %}
+            <div class="alert alert-error">
+                {{ error_message }}
+            </div>
+        {% elif efficiency is not none %}
+            <div class="result-section">
+                <h4>Results</h4>
+                <div class="result-card">
+                    <p><strong>Efficiency:</strong> {{ (efficiency * 100) | round(2) }}%</p>
+                    <p><strong>Hot Temperature:</strong> {{ T1 }} K</p>
+                    <p><strong>Cold Temperature:</strong> {{ T2 }} K</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
 
-<h3>Thermodynamic Laws</h3>
-<div>
-    {% for law in laws %}
-        <div style="border:1px solid #ccc; padding:10px; margin:10px 0; border-radius:5px;">
-            <h4>{{ law.law }}</h4>
-            <p><strong>Statement:</strong> {{ law.statement }}</p>
-            <p><strong>Description:</strong> {{ law.description }}</p>
-        </div>
-    {% endfor %}
+<div class="laws-section">
+    <h3>Thermodynamic Laws</h3>
+    <div class="laws-grid">
+        {% for law in laws %}
+            <div class="law-card">
+                <h4>{{ law.law }}</h4>
+                {% if law.equation %}
+                    <div class="equation">{{ law.equation }}</div>
+                {% endif %}
+                <p><strong>Statement:</strong> {{ law.statement }}</p>
+                <p><strong>Description:</strong> {{ law.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

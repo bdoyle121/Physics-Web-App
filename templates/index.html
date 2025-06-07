@@ -1,15 +1,42 @@
+<!-- index.html -->
 {% extends "base.html" %}
+{% block title %}Home - Physics & Chemistry Simulator{% endblock %}
 {% block content %}
-<h2>Welcome to the Physics & Chemistry Simulator</h2>
+<div class="hero-section">
+    <h2 class="hero-title">Welcome to the Physics & Chemistry Simulator</h2>
+    <p class="hero-description">
+        This interactive web app allows you to explore and visualize fundamental topics across physics and chemistry. 
+        Choose a module below to begin your journey through the universe!
+    </p>
+</div>
 
-<p>This interactive web app allows you to explore and visualize fundamental topics across physics and chemistry. Choose a module below to begin:</p>
+<div class="modules-grid">
+    <div class="module-card">
+        <h3>Thermodynamics</h3>
+        <p>Explore laws of energy, entropy, and simulate heat engines with interactive calculations.</p>
+        <a href="{{ url_for('thermodynamics') }}" class="btn btn-primary">Explore</a>
+    </div>
+    
+    <div class="module-card">
+        <h3>Quantum Mechanics</h3>
+        <p>Solve Schrödinger's equation and visualize quantum wavefunctions in real-time.</p>
+        <a href="{{ url_for('quantum') }}" class="btn btn-primary">Explore</a>
+    </div>
+    
+    <div class="module-card">
+        <h3>General Relativity</h3>
+        <p>Compute Schwarzschild radii and explore gravity's effect on spacetime.</p>
+        <a href="{{ url_for('relativity') }}" class="btn btn-primary">Explore</a>
+    </div>
+    
+    <div class="module-card">
+        <h3>Cosmology</h3>
+        <p>Understand the expanding universe through Hubble's Law and cosmic calculations.</p>
+        <a href="{{ url_for('cosmology') }}" class="btn btn-primary">Explore</a>
+    </div>
+</div>
 
-<ul>
-    <li><a href="/thermodynamics">Thermodynamics</a> – Explore laws of energy, entropy, and simulate heat engines.</li>
-    <li><a href="/quantum">Quantum Mechanics</a> – Solve Schrödinger's equation and view quantum wavefunctions.</li>
-    <li><a href="/relativity">General Relativity</a> – Compute Schwarzschild radii and explore gravity's effect on spacetime.</li>
-    <li><a href="/cosmology">Cosmology</a> – Understand the expanding universe through Hubble’s Law and scale factors.</li>
-</ul>
-
-<p>Each module includes major equations, interactive charts, and real calculations to help you learn how the universe works from atoms to galaxies.</p>
+<div class="info-section">
+    <p>Each module includes major equations, interactive charts, and real calculations to help you learn how the universe works from atoms to galaxies.</p>
+</div>
 {% endblock %}

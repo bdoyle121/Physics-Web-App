@@ -1,40 +1,56 @@
+<!-- base.html -->
 <!DOCTYPE html>
-<html lang ="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Physics & Chemistry Simulator</title>
-      
-        <!-- Link to your CSS file inside the static folder -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      
-        <!-- Other scripts -->
-        <script src="{{ url_for('static', filename='plotly-latest.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
-      
-        <!-- MathJax for LaTeX equations -->
-        <script>
-          window.MathJax = {
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Physics & Chemistry Simulator{% endblock %}</title>
+    
+    <!-- CSS - Make sure your static folder structure is correct -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    <!-- MathJax for LaTeX equations -->
+    <script>
+        window.MathJax = {
             tex: {
-              inlineMath: [['$', '$'], ['\\(', '\\)']]
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
             svg: { fontCache: 'global' }
-          };
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
-      </head>      
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
 <body>
-    <header>
-        <h1>Physics & Chemistry Web App</h1>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/thermodynamics">Thermodynamics</a>
-            <a href="/quantum">Quantum Mechanices</a>
-            <a href="/relativity">Genral Relativity</a>
-            <a href="/cosmology">Cosmology</a>
-        </nav>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="site-title">Physics & Chemistry Web App</h1>
+            <nav class="main-nav">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('thermodynamics') }}" class="nav-link">Thermodynamics</a>
+                <a href="{{ url_for('quantum') }}" class="nav-link">Quantum Mechanics</a>
+                <a href="{{ url_for('relativity') }}" class="nav-link">General Relativity</a>
+                <a href="{{ url_for('cosmology') }}" class="nav-link">Cosmology</a>
+            </nav>
+        </div>
     </header>
-    <main>
-        {% block content %}{% endblock %}
+    
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
     </main>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Physics & Chemistry Simulator</p>
+        </div>
+    </footer>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

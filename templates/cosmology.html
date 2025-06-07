@@ -1,28 +1,89 @@
 {% extends "base.html" %}
+{% block title %}Cosmology - Physics Simulator{% endblock %}
 {% block content %}
+<div class="page-header">
+    <h2>Cosmology: Universe Expansion</h2>
+</div>
 
-<h2>Cosmology: Hubble's Law & Universe Expansion</h2>
+<div class="theory-section">
+    <h3>Hubble's Law</h3>
+    <div class="equation-display">
+        $$ v = H_0 \cdot d $$
+    </div>
+    <p>This fundamental relationship describes how galaxies recede from us as the universe expands.</p>
+</div>
 
-<p><strong>Key Equation:</strong></p>
-<p>
-  $$ v = H_0 \cdot d $$
-</p>
+<div class="calculator-section">
+    <div class="calculator-card">
+        <h3>Cosmic Calculator</h3>
+        <form method="get" class="calculator-form">
+            <div class="input-group">
+                <label for="H0">Hubble Constant (km/s/Mpc):</label>
+                <input type="number" id="H0" name="H0" step="0.1" min="50" max="100" value="{{ H0 }}" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="distance">Distance (Mpc):</label>
+                <input type="number" id="distance" name="distance" step="0.1" min="0.1" value="{{ distance }}" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+    </div>
+</div>
 
-<p>This is Hubble's Law, which describes how galaxies move away from each other as the universe expands.</p>
+<div class="results-section">
+    <h3>Cosmic Parameters</h3>
+    <div class="results-grid">
+        <div class="result-card">
+            <h4>Hubble Constant</h4>
+            <p>{{ H0 }} km/s/Mpc</p>
+        </div>
+        
+        <div class="result-card">
+            <h4>Distance</h4>
+            <p>{{ distance }} Mpc</p>
+            <small>{{ (distance * 3.086e22) | round(2) }} meters</small>
+        </div>
+        
+        <div class="result-card">
+            <h4>Recession Velocity</h4>
+            <p>{{ velocity }} km/s</p>
+            <small>{{ (velocity / 299792.458) | round(4) }}c</small>
+        </div>
+        
+        <div class="result-card">
+            <h4>Universe Age</h4>
+            <p>{{ (age_universe / 1e9) | round(2) }} billion years</p>
+        </div>
+        
+        {% if critical_density %}
+        <div class="result-card">
+            <h4>Critical Density</h4>
+            <p>{{ critical_density | round(2) }} kg/m³</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
-<h4>Current Input:</h4>
-<ul>
-  <li>Hubble Constant: {{ H0 }} km/s/Mpc</li>
-  <li>Distance: {{ distance }} Mpc</li>
-  <li>Recession Velocity: {{ velocity }} km/s</li>
-  <li>Estimated Age of the Universe: {{ age_universe | round(2) }} years</li>
-</ul>
-
-<hr>
-
-<h3>Astronomy Picture of the Day</h3>
-<img src="{{ apod.url }}" alt="NASA APOD" style="max-width: 100%; border-radius: 8px;">
-<p><strong>{{ apod.title }}</strong></p>
-<p>{{ apod.explanation }}</p>
-
+{% if apod %}
+<div class="apod-section">
+    <h3>NASA Astronomy Picture of the Day</h3>
+    <div class="apod-card">
+        <img src="{{ apod.url }}" alt="{{ apod.title }}" class="apod-image">
+        <div class="apod-content">
+            <h4>{{ apod.title }}</h4>
+            <p>{{ apod.explanation }}</p>
+            {% if apod.date %}
+                <small>Date: {{ apod.date }}</small>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% elif api_error %}
+<div class="alert alert-warning">
+    <h3>NASA APOD</h3>
+    <p>{{ api_error }}</p>
+</div>
+{% endif %}
 {% endblock %}
