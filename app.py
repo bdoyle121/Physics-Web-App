@@ -1,5 +1,12 @@
 from flask import Flask, render_template, request
 import numpy as np
+from dotenv import load_dotenv
+import os
+import requests
+
+load_dotenv()
+NASA_API_KEY = os.getenv("NASA_API_KEY")
+
 
 app = Flask(__name__)
 
@@ -67,6 +74,9 @@ def relativity():
 # ---------------- Cosmology ----------------
 @app.route('/cosmology', methods=['GET', 'POST'])
 def cosmology():
+    url = f"https;//api.nasa.gov/planetary/apod?api_key={NASA_API_KEY}"
+    apod = requests.get(url).json()
+
     H0 = request.args.get('H0', default=70.0, type=float)  # km/s/Mpc
     distance = request.args.get('distance', default=1000.0, type=float)  # Mpc
     velocity = H0 * distance
