@@ -86,4 +86,106 @@
     <p>{{ api_error }}</p>
 </div>
 {% endif %}
+
+<div class="cosmic-timeline-section">
+    <h3>Interactive Timeline of the Universe</h3>
+    <p>Explore 13.8 billion years of cosmic evolution. Click on any epoch to learn more!</p>
+    
+    <!-- Timeline Container -->
+    <div class="timeline-container">
+        <div class="timeline-track">
+            <div class="timeline-line"></div>
+            
+            <!-- Timeline Epochs (clickable nodes) -->
+            <div class="timeline-epoch" data-epoch="big-bang" style="left: 0%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Big Bang</div>
+                <div class="epoch-time">0 seconds</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="inflation" style="left: 0.1%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Inflation</div>
+                <div class="epoch-time">10⁻³⁶ seconds</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="particle-soup" style="left: 1%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Particle Era</div>
+                <div class="epoch-time">1 second</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="nucleosynthesis" style="left: 3%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Nucleosynthesis</div>
+                <div class="epoch-time">3-20 minutes</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="recombination" style="left: 8%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Recombination</div>
+                <div class="epoch-time">380,000 years</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="dark-ages" style="left: 15%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Dark Ages</div>
+                <div class="epoch-time">400 million years</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="first-stars" style="left: 25%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">First Stars</div>
+                <div class="epoch-time">400 million years</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="galaxy-formation" style="left: 35%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Galaxy Formation</div>
+                <div class="epoch-time">1-2 billion years</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="solar-system" style="left: 65%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Solar System</div>
+                <div class="epoch-time">4.6 billion years</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="life-earth" style="left: 75%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Life on Earth</div>
+                <div class="epoch-time">3.5 billion years</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="dark-energy" style="left: 85%;">
+                <div class="epoch-marker"></div>
+                <div class="epoch-label">Dark Energy Era</div>
+                <div class="epoch-time">5 billion years ago</div>
+            </div>
+            
+            <div class="timeline-epoch" data-epoch="present" style="left: 100%;">
+                <div class="epoch-marker present"></div>
+                <div class="epoch-label">Present Day</div>
+                <div class="epoch-time">13.8 billion years</div>
+            </div>
+        </div>
+        
+        <!-- Timeline Controls -->
+        <div class="timeline-controls">
+            <button id="timeline-zoom-out">Zoom Out</button>
+            <button id="timeline-zoom-in">Zoom In</button>
+            <button id="timeline-reset">Reset View</button>
+        </div>
+    </div>
+    
+    <!-- Epoch Detail Modal -->
+    <div id="epoch-modal" class="epoch-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="epoch-details">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
