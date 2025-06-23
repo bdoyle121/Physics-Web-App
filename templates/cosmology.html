@@ -188,4 +188,364 @@
         </div>
     </div>
 </div>
+
+<!-- 🔥 COPY AND PASTE THIS INTO cosmology.html AFTER YOUR APOD SECTION 🔥 -->
+
+<style>
+    .cosmic-timeline-section {
+        margin: 3rem 0;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .timeline-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        margin: 2rem 0;
+        overflow-x: auto;
+        overflow-y: visible;
+    }
+    
+    .timeline-track {
+        position: relative;
+        width: 1000px;
+        height: 100%;
+        margin: 50px 0;
+    }
+    
+    .timeline-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+        border-radius: 2px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .timeline-epoch {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .epoch-marker {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #fff;
+        border: 4px solid #3498db;
+        box-shadow: 0 3px 15px rgba(52, 152, 219, 0.4);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .epoch-marker.present {
+        background: #e74c3c;
+        border-color: #c0392b;
+        box-shadow: 0 3px 15px rgba(231, 76, 60, 0.6);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    .timeline-epoch:hover .epoch-marker {
+        transform: scale(1.3);
+        box-shadow: 0 5px 25px rgba(52, 152, 219, 0.6);
+    }
+    
+    .epoch-label {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .epoch-time {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+        color: #666;
+        white-space: nowrap;
+        text-align: center;
+    }
+    
+    .timeline-epoch:hover .epoch-label {
+        opacity: 1;
+        top: -45px;
+    }
+    
+    .timeline-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .timeline-controls button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 20px;
+        background: #3498db;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .timeline-controls button:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    .epoch-modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+        background: white;
+        margin: 5% auto;
+        padding: 2rem;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        animation: modalFadeIn 0.3s ease-out;
+    }
+    
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    
+    .close-modal {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s ease;
+    }
+    
+    .close-modal:hover {
+        color: #333;
+    }
+    
+    #epoch-details h3 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.8rem;
+    }
+    
+    #epoch-details .epoch-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    #epoch-details .stat-item {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+    }
+    
+    #epoch-details .stat-label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.9rem;
+    }
+    
+    #epoch-details .stat-value {
+        font-size: 1.1rem;
+        color: #3498db;
+        margin-top: 0.25rem;
+    }
+    
+    .epoch-description h4 {
+        color: #2c3e50;
+        margin: 1.5rem 0 0.5rem 0;
+        font-size: 1.2rem;
+    }
+    
+    .epoch-description ul {
+        margin: 0.5rem 0 1rem 1.5rem;
+    }
+    
+    .epoch-description li {
+        margin: 0.25rem 0;
+        line-height: 1.5;
+    }
+    
+    .epoch-description p {
+        margin: 1rem 0;
+        line-height: 1.6;
+        color: #555;
+    }
+    
+    @media (max-width: 768px) {
+        .timeline-track {
+            width: 800px;
+        }
+        
+        .epoch-label {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+        }
+        
+        .epoch-time {
+            font-size: 0.7rem;
+        }
+        
+        .modal-content {
+            width: 95%;
+            margin: 10% auto;
+            padding: 1rem;
+        }
+        
+        .cosmic-timeline-section {
+            padding: 1rem;
+        }
+        
+        #epoch-details .epoch-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+    
+    <div class="cosmic-timeline-section">
+        <h3>Interactive Timeline of the Universe</h3>
+        <p>Explore 13.8 billion years of cosmic evolution. Click on any epoch to learn more!</p>
+        
+        <!-- Timeline Container -->
+        <div class="timeline-container">
+            <div class="timeline-track">
+                <div class="timeline-line"></div>
+                
+                <!-- Timeline Epochs (clickable nodes) -->
+                <div class="timeline-epoch" data-epoch="big-bang" style="left: 0%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Big Bang</div>
+                    <div class="epoch-time">0 seconds</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="inflation" style="left: 0.1%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Inflation</div>
+                    <div class="epoch-time">10⁻³⁶ seconds</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="particle-soup" style="left: 1%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Particle Era</div>
+                    <div class="epoch-time">1 second</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="nucleosynthesis" style="left: 3%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Nucleosynthesis</div>
+                    <div class="epoch-time">3-20 minutes</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="recombination" style="left: 8%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Recombination</div>
+                    <div class="epoch-time">380,000 years</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="dark-ages" style="left: 15%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Dark Ages</div>
+                    <div class="epoch-time">400 million years</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="first-stars" style="left: 25%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">First Stars</div>
+                    <div class="epoch-time">400 million years</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="galaxy-formation" style="left: 35%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Galaxy Formation</div>
+                    <div class="epoch-time">1-2 billion years</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="solar-system" style="left: 65%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Solar System</div>
+                    <div class="epoch-time">4.6 billion years</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="life-earth" style="left: 75%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Life on Earth</div>
+                    <div class="epoch-time">3.5 billion years</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="dark-energy" style="left: 85%;">
+                    <div class="epoch-marker"></div>
+                    <div class="epoch-label">Dark Energy Era</div>
+                    <div class="epoch-time">5 billion years ago</div>
+                </div>
+                
+                <div class="timeline-epoch" data-epoch="present" style="left: 100%;">
+                    <div class="epoch-marker present"></div>
+                    <div class="epoch-label">Present Day</div>
+                    <div class="epoch-time">13.8 billion years</div>
+                </div>
+            </div>
+            
+            <!-- Timeline Controls -->
+            <div class="timeline-controls">
+                <button id="timeline-zoom-out">Zoom Out</button>
+                <button id="timeline-zoom-in">Zoom In</button>
+                <button id="timeline-reset">Reset View</button>
+            </div>
+        </div>
+        
+        <!-- Epoch Detail Modal -->
+        <div id="epoch-modal" class="epoch-modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div id="epoch-details">
+                    <!-- Content will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
