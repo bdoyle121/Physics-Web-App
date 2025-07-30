@@ -1257,7 +1257,6 @@ if (typeof window.PhysicsApp !== 'undefined') {
     };
 }
 
-// 🔥 COPY AND PASTE THIS AT THE BOTTOM OF static/js/script.js 🔥
 
 // Cosmic Timeline Data
 const cosmicEpochs = {
